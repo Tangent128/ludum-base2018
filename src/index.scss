@@ -1,0 +1,10 @@
+$line-height: 20px;
+$line-vspace: 6px;
+
+body {
+    background: #444;
+    color: #ffa;
+
+    font-size: $line-height - $line-vspace;
+    line-height: $line-height;
+}
