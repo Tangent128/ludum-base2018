@@ -18,7 +18,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Game Base 2018'
+      template: "src/index.html",
     })
   ],
   output: {
