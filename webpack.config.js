@@ -10,7 +10,11 @@ module.exports = (env, argv) => {
     mode: "development",
     entry: './src/index.ts',
     resolve: {
-      extensions: [ '.tsx', '.ts', '.js' ]
+      extensions: [ '.tsx', '.ts', '.js' ],
+      modules: [
+        path.resolve(__dirname, 'src'),
+        'node_modules'
+      ]
     },
     module: {
       rules: [

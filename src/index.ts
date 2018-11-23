@@ -1,4 +1,4 @@
-import "./index.scss";
+import "index.scss";
 
 export function test() {
     const div = document.querySelector("div");
