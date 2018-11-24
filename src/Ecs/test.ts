@@ -1,5 +1,5 @@
 import { Bind } from "Applet";
-import { Component, Data, Join, Liveness, Remove, Create } from "Ecs/Data";
+import { Component, Data, Join, Liveness, Remove, Create, Lookup } from "Ecs/Data";
 
 interface Apple extends Component {}
 interface Banana extends Component {
@@ -48,6 +48,18 @@ export class EcsJoinTest {
             "carrots": Join(data, "carrot"),
             "apples+carrots": Join(data, "apple", "carrot"),
         }, null, 2);
+    }
+}
+
+@Bind("#EcsLookupTest")
+export class EcsLookupTest {
+    constructor(pre: HTMLElement) {
+        const data = new TestData();
+        const applesMaybeCarrots = Join(data, "apple").map(([id, apple]) => ({
+            apple,
+            maybeCarrot: Lookup(data, id, "carrot")[0]
+        }));
+        pre.innerText = JSON.stringify(applesMaybeCarrots, null, 2);
     }
 }
 

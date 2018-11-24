@@ -76,6 +76,71 @@ export function Remove<DATA extends Data>(data: DATA, [id, generation]: Id, stat
     }
 }
 
+// Ergonomic Lookup typings
+export function Lookup<
+    DATA extends Data,
+    A extends keyof DATA,
+> (
+    data: DATA,
+    id: Id,
+    a: A,
+): [
+    DATA[A][number] | null
+];
+export function Lookup<
+    DATA extends Data,
+    A extends keyof DATA,
+    B extends keyof DATA,
+> (
+    data: DATA,
+    id: Id,
+    a: A,
+    b: B,
+): [
+    DATA[A][number] | null,
+    DATA[B][number] | null
+];
+export function Lookup<
+    DATA extends Data,
+    A extends keyof DATA,
+    B extends keyof DATA,
+    C extends keyof DATA,
+> (
+    data: DATA,
+    id: Id,
+    a: A,
+    b: B,
+    c: C,
+): [
+    DATA[A][number] | null,
+    DATA[B][number] | null,
+    DATA[C][number]
+];
+
+/**
+ * Look up components that may or may not exist for an entity
+ * @param data store
+ * @param param1 entity Id
+ * @param components names of components to look for
+ * @returns the cooresponding components, with unfound ones replaced by nulls
+ */
+export function Lookup<DATA extends Data, K extends keyof DATA>(data: DATA, [id, generation]: Id, ...components: K[]): (Component | null)[] {
+    const entity = data.entity[id];
+    // inactive entities are fine to lookup, but dead ones are not
+    if(entity && entity.generation == generation && entity.alive != Liveness.DEAD) {
+        return components.map(storeName => {
+            const component = data[storeName][id];
+            if(component && component.generation == generation) {
+                return component;
+            } else {
+                return null;
+            }
+        });
+    } else {
+        return components.map(() => null);
+    }
+}
+
 // Ergonomic Join typings
 export function Join<
     DATA extends Data,
