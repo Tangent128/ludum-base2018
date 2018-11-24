@@ -1,8 +1,9 @@
 import "index.scss";
+import { Bind } from "Applet";
 
-export function test() {
-    const div = document.querySelector("div");
-    if(div) div.innerText = "Hello, World!";
+@Bind("div")
+export class Test {
+    constructor(div: HTMLElement) {
+        div.innerText = "Hello, World!";
+    }
 }
-
-test();
