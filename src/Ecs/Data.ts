@@ -3,6 +3,8 @@ export interface Component {
     generation: number;
 }
 
+export type Id = [number, number];
+
 export enum Liveness {
     DEAD = 0,
     ALIVE = 1,
@@ -25,7 +27,7 @@ export class Data {
  * @param generation entity ID generation
  * @param state can be set to Liveness.INACTIVE to disable an entity without actually killing it, for later resurrection
  */
-export function Remove<DATA extends Data>(data: DATA, [id, generation]: [number, number], state = Liveness.DEAD) {
+export function Remove<DATA extends Data>(data: DATA, [id, generation]: Id, state = Liveness.DEAD) {
     if(data.entity[id] && data.entity[id].generation == generation) {
         data.entity[id].alive = state;
     }
@@ -39,7 +41,7 @@ export function Join<
     data: DATA,
     a: A,
 ): [
-    [number, number],
+    Id,
     DATA[A][number]
 ][];
 export function Join<
@@ -51,7 +53,7 @@ export function Join<
     a: A,
     b: B,
 ): [
-    [number, number],
+    Id,
     DATA[A][number],
     DATA[B][number]
 ][];
@@ -66,7 +68,7 @@ export function Join<
     b: B,
     c: C,
 ): [
-    [number, number],
+    Id,
     DATA[A][number],
     DATA[B][number],
     DATA[C][number]
@@ -75,18 +77,18 @@ export function Join<
  * Query a Data collection for all Alive entities possessing the named set of Components.
  * @returns an array of tuples containing the matching entity [ID, generation]s & associated Components
  */
-export function Join<DATA extends Data, K extends keyof DATA>(data: DATA, ...components: K[]): [[number, number], ...Component[]][] {
+export function Join<DATA extends Data, K extends keyof DATA>(data: DATA, ...components: K[]): [Id, ...Component[]][] {
     const entities = data.entity;
     const stores = components.map(name => data[name]);
 
-    const results: [[number, number], ...Component[]][] = [];
+    const results: [Id, ...Component[]][] = [];
     entityLoop: for(let id = 0; id < entities.length; id++) {
         const entity = entities[id];
         // only process active entities
         if(entity.alive != Liveness.ALIVE) continue;
 
         const generation = entity.generation;
-        const result: [[number, number], ...Component[]] = [[id, generation]];
+        const result: [Id, ...Component[]] = [[id, generation]];
 
         for (const store of stores) {
             const component = store[id];
