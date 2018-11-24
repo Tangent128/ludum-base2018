@@ -21,6 +21,49 @@ export class Data {
 }
 
 /**
+ * Create an entity in the store
+ * @param data store
+ * @param assign map of components to attach
+ * @param state Liveness state, allows creating an inactive entity
+ * @returns the new entity's ID and generation
+ */
+type StripKeys<T, N> = {
+    [P in keyof T]: P extends N ? never : P
+}[keyof T];
+type Assigner<DATA extends Data> = {
+    [S in keyof DATA]?: Pick<DATA[S][number], StripKeys<DATA[S][number], "generation">>
+};
+export function Create<DATA extends Data>(data: DATA, assign: Assigner<DATA>, state = Liveness.ALIVE): Id {
+    const entities = data.entity;
+    // find free ID
+    let freeId = -1;
+    let generation = -1;
+    for(let id = 0; id < entities.length; id++) {
+        if(entities[id].alive == Liveness.DEAD) {
+            freeId = id;
+            generation = entities[id].generation + 1;
+            break;
+        }
+    }
+
+    if(freeId == -1) {
+        freeId = entities.length;
+        generation = 1;
+    }
+
+    entities[freeId] = {
+        generation,
+        alive: state
+    };
+
+    for(const key in assign) {
+        data[key][freeId] = {...(assign[key] as {}), generation};
+    }
+
+    return [freeId, generation];
+}
+
+/**
  * "Delete" an entity
  * @param data store
  * @param id entity ID
