@@ -26,7 +26,7 @@ export function Join<
     data: DATA,
     a: A,
 ): [
-    number,
+    [number, number],
     DATA[A][number]
 ][];
 export function Join<
@@ -38,7 +38,7 @@ export function Join<
     a: A,
     b: B,
 ): [
-    number,
+    [number, number],
     DATA[A][number],
     DATA[B][number]
 ][];
@@ -53,27 +53,27 @@ export function Join<
     b: B,
     c: C,
 ): [
-    number,
+    [number, number],
     DATA[A][number],
     DATA[B][number],
     DATA[C][number]
 ][];
 /**
  * Query a Data collection for all Alive entities possessing the named set of Components.
- * @returns an array of tuples containing the matching entity IDs & associated Components
+ * @returns an array of tuples containing the matching entity [ID, generation]s & associated Components
  */
-export function Join<DATA extends Data, K extends keyof DATA>(data: DATA, ...components: K[]): [number, ...Component[]][] {
+export function Join<DATA extends Data, K extends keyof DATA>(data: DATA, ...components: K[]): [[number, number], ...Component[]][] {
     const entities = data.entity;
     const stores = components.map(name => data[name]);
 
-    const results: [number, ...Component[]][] = [];
+    const results: [[number, number], ...Component[]][] = [];
     entityLoop: for(let id = 0; id < entities.length; id++) {
         const entity = entities[id];
         // only process active entities
         if(entity.alive != Liveness.ALIVE) continue;
 
-        const result: [number, ...Component[]] = [id];
         const generation = entity.generation;
+        const result: [[number, number], ...Component[]] = [[id, generation]];
 
         for (const store of stores) {
             const component = store[id];
