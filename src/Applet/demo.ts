@@ -28,3 +28,20 @@ export class Test implements KeyHandler {
         this.div.innerText = `Released ${key}`;
     }
 }
+
+@Bind("#LoopTest")
+export class LoopTest {
+    frames: number = 0;
+
+    constructor(public div: HTMLElement) {
+        const loop = new Loop(30,
+            interval => {
+                this.frames++;
+            },
+            dt => {
+                this.div.innerHTML = `<b>dt:</b> ${dt} <br /> ${this.frames} frames`;
+            }
+        );
+        loop.start();
+    }
+}
