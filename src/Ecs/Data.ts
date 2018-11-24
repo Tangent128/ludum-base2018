@@ -16,7 +16,8 @@ export interface EntityState extends Component {
 }
 
 export class Data {
-    public entity: EntityState[] = [];
+    entity: EntityState[] = [];
+
     [name: string]: Component[] | Record<number, Component>;
 }
 
