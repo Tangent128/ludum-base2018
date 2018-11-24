@@ -1,5 +1,5 @@
 import { Bind } from "Applet";
-import { Component, Data, Join, Liveness } from "Ecs/Data";
+import { Component, Data, Join, Liveness, Remove } from "Ecs/Data";
 
 interface Apple extends Component {}
 interface Banana extends Component {
@@ -47,6 +47,20 @@ export class EcsJoinTest {
             "bananas": Join(data, "banana"),
             "carrots": Join(data, "carrot"),
             "apples+carrots": Join(data, "apple", "carrot"),
+        }, null, 2);
+    }
+}
+
+@Bind("#EcsRemoveTest")
+export class EcsRemoveTest {
+    constructor(pre: HTMLElement) {
+        const data = new TestData();
+        const beforeDelete = Join(data, "apple", "carrot");
+        Remove(data, [0, 5]);
+        const afterDelete = Join(data, "apple", "carrot");
+        pre.innerText = JSON.stringify({
+            beforeDelete,
+            afterDelete
         }, null, 2);
     }
 }

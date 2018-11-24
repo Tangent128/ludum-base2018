@@ -18,6 +18,19 @@ export class Data {
     [name: string]: Component[] | Record<number, Component>;
 }
 
+/**
+ * "Delete" an entity
+ * @param data store
+ * @param id entity ID
+ * @param generation entity ID generation
+ * @param state can be set to Liveness.INACTIVE to disable an entity without actually killing it, for later resurrection
+ */
+export function Remove<DATA extends Data>(data: DATA, [id, generation]: [number, number], state = Liveness.DEAD) {
+    if(data.entity[id] && data.entity[id].generation == generation) {
+        data.entity[id].alive = state;
+    }
+}
+
 // Ergonomic Join typings
 export function Join<
     DATA extends Data,
