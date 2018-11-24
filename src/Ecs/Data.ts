@@ -1,3 +1,4 @@
+import { Location } from "Ecs/Location";
 
 export interface Component {
     generation: number;
@@ -17,6 +18,8 @@ export interface EntityState extends Component {
 
 export class Data {
     entity: EntityState[] = [];
+
+    location: (Location & Component)[] = [];
 
     [name: string]: Component[] | Record<number, Component>;
 }
