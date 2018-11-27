@@ -197,24 +197,38 @@ export function Join<DATA extends Data, K extends keyof DATA>(data: DATA, ...com
     const stores: Store<{}>[] = components.map(name => data[name]);
 
     const results: [Id, ...Component[]][] = [];
-    entityLoop: for(let id = 0; id < entities.length; id++) {
-        const entity = entities[id];
-        // only process active entities
-        if(entity.alive != Liveness.ALIVE) continue;
-
-        const generation = entity.generation;
-        const result: [Id, ...Component[]] = [[id, generation]];
-
-        for (const store of stores) {
-            const component = store[id];
-            if(component && component.generation == generation) {
-                result.push(component);
-            } else {
-                continue entityLoop;
-            }
+    const firstStore = stores[0];
+    if(Array.isArray(firstStore)) {
+        for(let id = 0; id < firstStore.length; id++) {
+            JoinLoop(id, entities, stores, results);
         }
-
-        results.push(result);
+    } else {
+        for(const id in firstStore) {
+            JoinLoop(Number(id), entities, stores, results);
+        }
     }
     return results;
+}
+function JoinLoop(id: number, entities: Store<EntityState>, stores: Store<{}>[], results: [Id, ...Component[]][]) {
+    const result: [Id, ...Component[]] = [[id, -1]];
+
+    let generation = -1;
+    for (const store of stores) {
+        const component = store[id];
+        if(component && (component.generation == generation || generation == -1)) {
+            generation = component.generation;
+            result.push(component);
+        } else {
+            return;
+        }
+    }
+
+    // only accept active entities (do this check here)
+    const entity = entities[id];
+    if(entity.alive != Liveness.ALIVE || generation != entity.generation) return;
+
+    // backpatch generation now that it's known
+    result[0][1] = generation;
+
+    results.push(result);
 }
