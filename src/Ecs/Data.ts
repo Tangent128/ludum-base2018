@@ -17,13 +17,14 @@ export interface EntityState extends Component {
     alive: Liveness;
 }
 
+export type Store<T> = (T & Component)[] | Record<number, T & Component>;
 export class Data {
     entity: EntityState[] = [];
 
-    location: (Location & Component)[] = [];
-    renderBox: (RenderBox & Component)[] = [];
+    location: Store<Location> = [];
+    renderBox: Store<RenderBox> = [];
 
-    [name: string]: Component[] | Record<number, Component>;
+    [name: string]: Store<{}>;
 }
 
 /**
@@ -193,7 +194,7 @@ export function Join<
  */
 export function Join<DATA extends Data, K extends keyof DATA>(data: DATA, ...components: K[]): [Id, ...Component[]][] {
     const entities = data.entity;
-    const stores = components.map(name => data[name]);
+    const stores: Store<{}>[] = components.map(name => data[name]);
 
     const results: [Id, ...Component[]][] = [];
     entityLoop: for(let id = 0; id < entities.length; id++) {
