@@ -1,7 +1,7 @@
 import { Data } from "Ecs/Components";
 import { Join } from "Ecs/Data";
 import { TransformCx } from "Ecs/Location";
-import { DrawSet } from "Ecs/Render";
+import { DrawSet } from "Applet/Render";
 
 export function RenderBoxes(data: Data, drawSet: DrawSet) {
     drawSet.queue(...Join(data, "location", "renderBox").map(

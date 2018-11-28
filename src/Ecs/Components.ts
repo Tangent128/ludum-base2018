@@ -1,6 +1,6 @@
 
 import { Data as CoreData, Store } from "Ecs/Data";
-import { Box, Layer } from "Ecs/Render";
+import { Box, Layer } from "Applet/Render";
 
 export class Location {
     constructor(init?: Partial<Location>) {

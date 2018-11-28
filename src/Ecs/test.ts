@@ -3,7 +3,7 @@ import { Loop } from "Applet/Loop";
 import { Data, Location, RenderBox } from "Ecs/Components";
 import { Component, Join, Liveness, Remove, Create, Lookup } from "Ecs/Data";
 import { DumbMotion } from "Ecs/Location";
-import { Layer, Box, DrawSet } from "Ecs/Render";
+import { Layer, Box, DrawSet } from "Applet/Render";
 import { RenderBoxes } from "Ecs/RenderBox";
 
 interface Apple extends Component {}
