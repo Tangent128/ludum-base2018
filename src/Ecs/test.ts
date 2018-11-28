@@ -1,4 +1,4 @@
-import { Bind } from "Applet/Init";
+import { Bind, Game } from "Applet/Init";
 import { Loop } from "Applet/Loop";
 import { Data, Location, RenderBox } from "Ecs/Components";
 import { Component, Join, Liveness, Remove, Create, Lookup } from "Ecs/Data";
@@ -101,14 +101,11 @@ export class EcsCreateTest {
     }
 }
 
-@Bind("#RenderTest")
+@Game("#RenderTest")
 export class LoopTest {
     data = new Data();
 
-    constructor(public canvas: HTMLElement) {
-        if(!(canvas instanceof HTMLCanvasElement)) return;
-        const cx = canvas.getContext("2d") as CanvasRenderingContext2D;
-
+    constructor(public canvas: HTMLCanvasElement, cx: CanvasRenderingContext2D) {
         const layer = new Layer(0);
         const drawSet = new DrawSet();
 
