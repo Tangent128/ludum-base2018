@@ -1,14 +1,7 @@
-import { Data, Join } from "Ecs/Data";
-import {Box, Layer, DrawSet} from "Ecs/Render";
-import { TransformCx } from "./Location";
-
-export class RenderBox  {
-    constructor(
-        public box: Box,
-        public color = "#f00",
-        public layer: Layer
-    ) {};
-};
+import { Data } from "Ecs/Components";
+import { Join } from "Ecs/Data";
+import { TransformCx } from "Ecs/Location";
+import { DrawSet } from "Ecs/Render";
 
 export function RenderBoxes(data: Data, drawSet: DrawSet) {
     drawSet.queue(...Join(data, "location", "renderBox").map(

@@ -1,9 +1,10 @@
 import { Bind } from "Applet";
 import { Loop } from "Applet/Loop";
-import { Component, Data, Join, Liveness, Remove, Create, Lookup } from "Ecs/Data";
-import { Location, DumbMotion } from "Ecs/Location";
+import { Data, Location, RenderBox } from "Ecs/Components";
+import { Component, Join, Liveness, Remove, Create, Lookup } from "Ecs/Data";
+import { DumbMotion } from "Ecs/Location";
 import { Layer, Box, DrawSet } from "Ecs/Render";
-import { RenderBox, RenderBoxes } from "./RenderBox";
+import { RenderBoxes } from "Ecs/RenderBox";
 
 interface Apple extends Component {}
 interface Banana extends Component {

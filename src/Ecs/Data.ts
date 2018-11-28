@@ -1,5 +1,3 @@
-import { Location } from "Ecs/Location";
-import { RenderBox } from "Ecs/RenderBox";
 
 export interface Component {
     generation: number;
@@ -20,9 +18,6 @@ export interface EntityState extends Component {
 export type Store<T> = (T & Component)[] | Record<number, T & Component>;
 export class Data {
     entity: EntityState[] = [];
-
-    location: Store<Location> = [];
-    renderBox: Store<RenderBox> = [];
 
     [name: string]: Store<{}>;
 }
