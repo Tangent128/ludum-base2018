@@ -1,4 +1,4 @@
-import { Bind } from "Applet";
+import { Bind } from "Applet/Init";
 import { Loop } from "Applet/Loop";
 import { Data, Location, RenderBox } from "Ecs/Components";
 import { Component, Join, Liveness, Remove, Create, Lookup } from "Ecs/Data";

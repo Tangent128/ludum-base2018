@@ -1,4 +1,4 @@
-import { Bind } from "Applet";
+import { Bind } from "Applet/Init";
 import { KeyControl, KeyHandler, KeyName } from "Applet/Keyboard";
 import { Loop } from "Applet/Loop";
 
