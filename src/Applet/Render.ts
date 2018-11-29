@@ -5,10 +5,6 @@ export class Box {
     ) {};
 };
 
-export interface RenderData {
-    render: Render[]
-}
-
 /**
  * A thing that can be drawn.
  */
