@@ -31,5 +31,5 @@ export class RenderBounds  {
 export class Data extends CoreData {
     location: Store<Location> = [];
     bounds: Store<Box> = [];
-    renderBounds: Store<RenderBounds> = [];
+    renderBounds: Store<RenderBounds> = {};
 }
