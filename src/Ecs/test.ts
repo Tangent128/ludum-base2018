@@ -1,10 +1,10 @@
 import { Bind, Game } from "Applet/Init";
 import { Loop } from "Applet/Loop";
-import { Data, Box, Location, RenderBox } from "Ecs/Components";
+import { Data, Box, Location, RenderBounds } from "Ecs/Components";
 import { Component, Join, Liveness, Remove, Create, Lookup } from "Ecs/Data";
 import { DumbMotion } from "Ecs/Location";
 import { Layer, DrawSet } from "Applet/Render";
-import { RenderBoxes } from "Ecs/RenderBox";
+import { RunRenderBounds } from "Ecs/RenderBounds";
 
 interface Apple extends Component {}
 interface Banana extends Component {
@@ -115,8 +115,8 @@ export class LoopTest {
                 Y: 200,
                 VAngle: Math.PI
             }),
-            renderBox: new RenderBox(
-                new Box(-50, 50, 100, 200),
+            bounds: new Box(-50, 50, 100, 200),
+            renderBounds: new RenderBounds(
                 "#0a0",
                 layer
             )
@@ -129,7 +129,7 @@ export class LoopTest {
             dt => {
                 cx.fillStyle = "#848";
                 cx.fillRect(0, 0, canvas.width, canvas.height);
-                RenderBoxes(this.data, drawSet);
+                RunRenderBounds(this.data, drawSet);
                 drawSet.draw(cx, dt);
             }
         );

@@ -21,9 +21,8 @@ export class Location {
     VAngle = 0;
 }
 
-export class RenderBox  {
+export class RenderBounds  {
     constructor(
-        public box: Box,
         public color = "#f00",
         public layer: Layer
     ) {};
@@ -31,5 +30,6 @@ export class RenderBox  {
 
 export class Data extends CoreData {
     location: Store<Location> = [];
-    renderBox: Store<RenderBox> = [];
+    bounds: Store<Box> = [];
+    renderBounds: Store<RenderBounds> = [];
 }
