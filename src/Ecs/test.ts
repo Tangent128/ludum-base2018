@@ -1,9 +1,10 @@
 import { Bind, Game } from "Applet/Init";
+import { KeyControl } from "Applet/Keyboard";
 import { Loop } from "Applet/Loop";
+import { Layer, DrawSet } from "Applet/Render";
 import { Data, Location, Polygon, RenderBounds } from "Ecs/Components";
 import { Component, Join, Liveness, Remove, Create, Lookup } from "Ecs/Data";
 import { DumbMotion } from "Ecs/Location";
-import { Layer, DrawSet } from "Applet/Render";
 import { RunRenderBounds } from "Ecs/RenderBounds";
 
 interface Apple extends Component {}
@@ -105,7 +106,7 @@ export class EcsCreateTest {
 export class LoopTest {
     data = new Data();
 
-    constructor(public canvas: HTMLCanvasElement, cx: CanvasRenderingContext2D) {
+    constructor(public canvas: HTMLCanvasElement, cx: CanvasRenderingContext2D, keys: KeyControl) {
         const layer = new Layer(0);
         const drawSet = new DrawSet();
 
@@ -134,5 +135,12 @@ export class LoopTest {
             }
         );
         loop.start();
+
+        keys.setHandler({
+            press: key => {
+                if(key == "a") loop.start();
+                else if(key == "b") loop.stop();
+            }
+        });
     }
 }
