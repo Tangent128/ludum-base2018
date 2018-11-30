@@ -1,6 +1,6 @@
 import { Bind, Game } from "Applet/Init";
 import { Loop } from "Applet/Loop";
-import { Data, Box, Location, RenderBounds } from "Ecs/Components";
+import { Data, Location, Polygon, RenderBounds } from "Ecs/Components";
 import { Component, Join, Liveness, Remove, Create, Lookup } from "Ecs/Data";
 import { DumbMotion } from "Ecs/Location";
 import { Layer, DrawSet } from "Applet/Render";
@@ -115,7 +115,7 @@ export class LoopTest {
                 Y: 200,
                 VAngle: Math.PI
             }),
-            bounds: new Box(-50, 50, 100, 200),
+            bounds: new Polygon([-50, 50, -60, 250, 60, 250, 50, 50]),
             renderBounds: new RenderBounds(
                 "#0a0",
                 layer

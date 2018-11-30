@@ -9,6 +9,15 @@ export class Box {
     ) {};
 };
 
+/**
+ * pairs of vertex coordinates in ccw winding order
+ */
+export class Polygon {
+    constructor(
+        public points: number[]
+    ) {};
+}
+
 export class Location {
     constructor(init?: Partial<Location>) {
         init && Object.assign(this, init);
@@ -30,6 +39,6 @@ export class RenderBounds  {
 
 export class Data extends CoreData {
     location: Store<Location> = [];
-    bounds: Store<Box> = [];
+    bounds: Store<Polygon> = [];
     renderBounds: Store<RenderBounds> = {};
 }
