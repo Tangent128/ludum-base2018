@@ -30,6 +30,12 @@ export class Location {
     VAngle = 0;
 }
 
+export class CollisionClass {
+    constructor(
+        public name: string
+    ) {};
+}
+
 export class RenderBounds  {
     constructor(
         public color = "#f00",
@@ -41,4 +47,6 @@ export class Data extends CoreData {
     location: Store<Location> = [];
     bounds: Store<Polygon> = [];
     renderBounds: Store<RenderBounds> = {};
+    collisionSourceClass: Store<CollisionClass> = {};
+    collisionTargetClass: Store<CollisionClass> = {};
 }

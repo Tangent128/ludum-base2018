@@ -2,7 +2,8 @@ import { Bind, Game } from "Applet/Init";
 import { KeyControl } from "Applet/Keyboard";
 import { Loop } from "Applet/Loop";
 import { Layer, DrawSet } from "Applet/Render";
-import { Data, Location, Polygon, RenderBounds } from "Ecs/Components";
+import { Data, Location, Polygon, RenderBounds, CollisionClass } from "Ecs/Components";
+import { FindCollisions } from "Ecs/Collision";
 import { Component, Join, Liveness, Remove, Create, Lookup } from "Ecs/Data";
 import { DumbMotion } from "Ecs/Location";
 import { RunRenderBounds } from "Ecs/RenderBounds";
@@ -110,15 +111,30 @@ export class LoopTest {
         const layer = new Layer(0);
         const drawSet = new DrawSet();
 
-        Create(this.data, {
+        const spinnerId = Create(this.data, {
             location: new Location({
                 X: 200,
                 Y: 200,
                 VAngle: Math.PI
             }),
             bounds: new Polygon([-50, 50, -60, 250, 60, 250, 50, 50]),
+            collisionTargetClass: new CollisionClass("block"),
             renderBounds: new RenderBounds(
                 "#0a0",
+                layer
+            )
+        });
+
+        const triangleId = Create(this.data, {
+            location: new Location({
+                X: 200,
+                Y: 200,
+                VAngle: -Math.PI/10
+            }),
+            bounds: new Polygon([70, 0, 55, 40, 85, 40]),
+            collisionSourceClass: new CollisionClass("tri"),
+            renderBounds: new RenderBounds(
+                "#d40",
                 layer
             )
         });
@@ -126,6 +142,18 @@ export class LoopTest {
         const loop = new Loop(30,
             interval => {
                 DumbMotion(this.data, interval);
+
+                const [triangleDebug] = Lookup(this.data, triangleId, "renderBounds");
+                (triangleDebug as RenderBounds).color = "#d40";
+
+                FindCollisions(this.data, 500).forEach(({className, sourceId}) => {
+                    switch(className) {
+                        case "tri>block":
+                            const [debug] = Lookup(this.data, sourceId, "renderBounds");
+                            if(debug) debug.color = "#0ff";
+                            break;
+                    }
+                });
             },
             dt => {
                 cx.fillStyle = "#848";
