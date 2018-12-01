@@ -80,3 +80,22 @@ export class DrawSet {
         this.renderables.length = 0;
     }
 }
+
+/**
+ * Simple spritesheet adapter
+ */
+export class SpriteSheet {
+    constructor(
+        public img: HTMLImageElement,
+        public w: number, public h: number
+    ) {};
+
+    render(cx: CanvasRenderingContext2D, index: number, offsetX = 0, offsetY = 0) {
+        if(this.img.width > 0) {
+            const row = Math.floor((index * this.w) / this.img.width);
+            const x = Math.floor((index * this.w) % this.img.width);
+            const y = row * this.h;
+            cx.drawImage(this.img, x, y, this.w, this.h, offsetX, offsetY, this.w, this.h);
+        }
+    }
+}
