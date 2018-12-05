@@ -1,6 +1,6 @@
 
 import { Data as CoreData, Store } from "Ecs/Data";
-import { Layer } from "Applet/Render";
+import { Layer, SpriteSheet } from "Applet/Render";
 
 export class Box {
     constructor(
@@ -55,10 +55,21 @@ export class RenderBounds  {
     ) {};
 };
 
+export class RenderSprite  {
+    constructor(
+        public sheet: SpriteSheet,
+        public layer: Layer,
+        public index = 0,
+        public offsetX = 0,
+        public offsetY = 0
+    ) {};
+};
+
 export class Data extends CoreData {
     location: Store<Location> = [];
     bounds: Store<Polygon> = [];
     renderBounds: Store<RenderBounds> = {};
+    renderSprite: Store<RenderSprite> = {};
     collisionSourceClass: Store<CollisionClass> = {};
     collisionTargetClass: Store<CollisionClass> = {};
 }

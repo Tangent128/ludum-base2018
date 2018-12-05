@@ -16,3 +16,12 @@ export function RunRenderBounds(data: Data, drawSet: DrawSet) {
         }))
     );
 }
+
+export function RunRenderSprites(data: Data, drawSet: DrawSet) {
+    drawSet.queue(...Join(data, "renderSprite", "location").map(
+        ([id, {sheet, layer, index, offsetX, offsetY}, location]) => layer.toRender((cx, dt) => {
+            TransformCx(cx, location, dt);
+            sheet.render(cx, index, offsetX, offsetY);
+        }))
+    );
+}
