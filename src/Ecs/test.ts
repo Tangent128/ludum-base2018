@@ -146,7 +146,7 @@ export class LoopTest {
                 const [triangleDebug] = Lookup(this.data, triangleId, "renderBounds");
                 (triangleDebug as RenderBounds).color = "#d40";
 
-                FindCollisions(this.data, 500).forEach(({className, sourceId}) => {
+                FindCollisions(this.data, 500, (className, sourceId, targetId) => {
                     switch(className) {
                         case "tri>block":
                             const [debug] = Lookup(this.data, sourceId, "renderBounds");

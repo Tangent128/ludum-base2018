@@ -2,12 +2,6 @@ import { Data, Location, Polygon, CollisionClass } from "Ecs/Components";
 import { Id, Join } from "Ecs/Data";
 import { TfPolygon } from "Ecs/Location";
 
-export interface Collision {
-    className: string;
-    sourceId: Id;
-    targetId: Id;
-}
-
 interface Candidate {
     id: Id;
     class: CollisionClass;
@@ -85,7 +79,7 @@ function collideConvexPolygons({points: aPoints}: Polygon, {points: bPoints}: Po
     return halfCollideConvexPolygons(aPoints, bPoints) && halfCollideConvexPolygons(bPoints, aPoints);
 }
 
-export function FindCollisions(data: Data, cellSize: number): Collision[] {
+export function FindCollisions(data: Data, cellSize: number, callback: (className: string, sourceId: Id, targetId: Id) => void) {
     const spatialMap: Record<string, Candidate[]> = {};
 
     Join(data, "collisionTargetClass", "location", "bounds").map(
@@ -100,8 +94,6 @@ export function FindCollisions(data: Data, cellSize: number): Collision[] {
             });
         }
     );
-
-    const results: Collision[] = [];
 
     Join(data, "collisionSourceClass", "location", "bounds").map(
         ([id, sourceClass, location, poly]) => {
@@ -118,15 +110,10 @@ export function FindCollisions(data: Data, cellSize: number): Collision[] {
             for(const bareId in candidates) {
                 const target = candidates[bareId];
                 if(collideConvexPolygons(workingPoly, target.poly)) {
-                    results.push({
-                        className: `${sourceClass.name}>${target.class.name}`,
-                        sourceId: id,
-                        targetId: target.id
-                    });
+                    const className = `${sourceClass.name}>${target.class.name}`;
+                    callback(className, id, target.id);
                 }
             }
         }
     );
-
-    return results;
 }
