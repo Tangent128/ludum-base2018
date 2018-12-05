@@ -6,7 +6,7 @@ import { Data, Location, Polygon, RenderBounds, CollisionClass } from "Ecs/Compo
 import { FindCollisions } from "Ecs/Collision";
 import { Component, Join, Liveness, Remove, Create, Lookup } from "Ecs/Data";
 import { DumbMotion } from "Ecs/Location";
-import { RunRenderBounds } from "Ecs/RenderBounds";
+import { RunRenderBounds } from "Ecs/Renderers";
 
 interface Apple extends Component {}
 interface Banana extends Component {
