@@ -183,6 +183,25 @@ export function Join<
     DATA[B][number],
     DATA[C][number]
 ][];
+export function Join<
+    DATA extends Data,
+    A extends keyof DATA,
+    B extends keyof DATA,
+    C extends keyof DATA,
+    D extends keyof DATA,
+> (
+    data: DATA,
+    a: A,
+    b: B,
+    c: C,
+    d: D,
+): [
+    Id,
+    DATA[A][number],
+    DATA[B][number],
+    DATA[C][number],
+    DATA[D][number]
+][];
 /**
  * Query a Data collection for all Alive entities possessing the named set of Components.
  * @returns an array of tuples containing the matching entity [ID, generation]s & associated Components
