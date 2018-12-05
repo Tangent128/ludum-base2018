@@ -10,6 +10,18 @@ export class Box {
 };
 
 /**
+ * Return source moved towards target by speed, without going past.
+ */
+export function Approach(source: number, target: number, speed: number): number {
+    const delta = target - source;
+    if(Math.abs(delta) <= speed) {
+        return target;
+    } else {
+        return source + Math.sign(delta) * speed;
+    }
+}
+
+/**
  * pairs of vertex coordinates in ccw winding order
  */
 export class Polygon {
