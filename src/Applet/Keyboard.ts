@@ -51,16 +51,21 @@ export class KeyControl {
     private keyDown = (evt: KeyboardEvent) => {
         this.dispatch(evt, "press");
     };
+    private blur = (evt: FocusEvent) => {
+        this.handler && this.handler.block && this.handler.block();
+    };
 
     constructor(private element: HTMLElement, tabindex: number = -1) {
         element.addEventListener("keyup", this.keyUp, false);
         element.addEventListener("keydown", this.keyDown, false);
+        element.addEventListener("blur", this.blur, false);
         element.setAttribute("tabindex", tabindex+"");
     };
 
     public dispose() {
         this.element.removeEventListener("keyup", this.keyUp, false);
         this.element.removeEventListener("keydown", this.keyDown, false);
+        this.element.removeEventListener("blur", this.blur, false);
     };
 
     public setHandler(newHandler?: KeyHandler) {
