@@ -1,7 +1,7 @@
 import { Data } from "Ecs/Components";
 import { Join } from "Ecs/Data";
 import { TransformCx } from "Ecs/Location";
-import { DrawSet } from "Applet/Render";
+import { DrawSet, Layer } from "Applet/Render";
 
 export function RunRenderBounds(data: Data, drawSet: DrawSet) {
     drawSet.queue(...Join(data, "renderBounds", "location", "bounds").map(
@@ -24,4 +24,18 @@ export function RunRenderSprites(data: Data, drawSet: DrawSet) {
             sheet.render(cx, index, offsetX, offsetY);
         }))
     );
+}
+
+export function DrawDebug(debug: Record<string, any>, drawSet: DrawSet, layer: Layer, width: number, color: string) {
+    drawSet.queue(layer.toRender((cx, dt) => {
+        cx.font = "12px monospace";
+        cx.fillStyle = color;
+        let y = 12;
+        for(const label in debug) {
+            cx.textAlign = "left";
+            cx.textBaseline = "middle";
+            cx.fillText(`${label}: ${JSON.stringify(debug[label])}`, 0, y, width);
+            y += 14;
+        }
+    }));
 }
