@@ -1,9 +1,9 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+import * as path from "path";
+import * as HtmlWebpackPlugin from "html-webpack-plugin";
+import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
+import { Configuration } from "webpack";
 
-
-module.exports = (env, argv) => {
+export default function config(env: {}, argv: { mode: string }): Configuration {
   const isProduction = argv.mode === "production";
 
   return {
@@ -49,4 +49,4 @@ module.exports = (env, argv) => {
       path: path.resolve(__dirname, 'dist')
     },
   }
-};
+}
